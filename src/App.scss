@@ -1,0 +1,34 @@
+header {
+  background-color: black;
+  padding: 10px 50px;
+
+  a {
+    color: white;
+    text-decoration: none;
+    margin-right: 40px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    height: 30px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0 40px;
+
+    &.run-button {
+      font-weight: bold;
+    }
+
+    &:hover {
+      color: red;
+    }
+  }
+}
