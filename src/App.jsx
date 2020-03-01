@@ -5,7 +5,7 @@ import produce from "immer";
 function App() {
   console.log(window.innerHeight, window.innerWidth);
 
-  // Compute the number of rows and cols, knowing that the header is 50px tall and each cell is 20px;
+  // Compute the number of rows and cols, knowing that the header is 50px tall and each cell is a 20px square
   const ROWS = Math.floor((window.innerHeight - 50) / 20);
   const COLS = Math.floor(window.innerWidth / 20);
 
@@ -13,7 +13,7 @@ function App() {
     return Array(ROWS).fill(Array(COLS).fill(false)); // Init the matrix with empty cells
   };
 
-  // List all relative positions of a cell
+  // List all relative positions of a cell. This array is used to reduce the code when checking the state of neighboring cells
   const neighborsRelativePositions = [
     [0, 1],
     [0, -1],
@@ -140,6 +140,7 @@ function App() {
           rows.map((col, j) => (
             <div
               key={`${i}-${j}`}
+              className="cell"
               style={{
                 width: 20,
                 height: 20,
