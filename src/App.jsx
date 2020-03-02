@@ -1,30 +1,28 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./App.scss";
 import produce from "immer";
 
+// List all relative positions of a cell. This array is used to reduce the code when checking the state of neighboring cells
+const neighborsRelativePositions = [
+  [0, 1],
+  [0, -1],
+  [1, 0],
+  [-1, 0],
+  [1, 1],
+  [1, -1],
+  [-1, 1],
+  [-1, -1]
+];
+
+// Compute the number of rows and cols, knowing that the header is 50px tall and each cell is a 20px square
+const ROWS = Math.floor((window.innerHeight - 50) / 20);
+const COLS = Math.floor(window.innerWidth / 20);
+
+const emptyGrid = () => {
+  return Array(ROWS).fill(Array(COLS).fill(false)); // Init the grid with empty cells
+};
+
 function App() {
-  console.log(window.innerHeight, window.innerWidth);
-
-  // Compute the number of rows and cols, knowing that the header is 50px tall and each cell is a 20px square
-  const ROWS = Math.floor((window.innerHeight - 50) / 20);
-  const COLS = Math.floor(window.innerWidth / 20);
-
-  const emptyGrid = () => {
-    return Array(ROWS).fill(Array(COLS).fill(false)); // Init the matrix with empty cells
-  };
-
-  // List all relative positions of a cell. This array is used to reduce the code when checking the state of neighboring cells
-  const neighborsRelativePositions = [
-    [0, 1],
-    [0, -1],
-    [1, 0],
-    [-1, 0],
-    [1, 1],
-    [1, -1],
-    [-1, 1],
-    [-1, -1]
-  ];
-
   // Initialize the grid with empty cells
   const [grid, setGrid] = useState(() => {
     return emptyGrid();
@@ -37,8 +35,8 @@ function App() {
   const runRef = useRef(run);
   runRef.current = run;
 
-  // Run the simulation. Memoïzed.
-  const runSimulation = useCallback(() => {
+  // Run the simulation.
+  const runSimulation = () => {
     if (!runRef.current) {
       return; // Stop the simulation when the running state is false
     }
@@ -80,10 +78,9 @@ function App() {
         }
       });
     });
-
     // Recursively call the simulation to process the next phase.
     setTimeout(runSimulation, 100);
-  }, [neighborsRelativePositions, COLS, ROWS]);
+  };
 
   return (
     <>
